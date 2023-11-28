@@ -4,7 +4,7 @@ const { mongourl } = require('./key')
 
 const connectMongodb = async () =>{
     try {
-   await mongoose.connect(mongourl, {useNewUrlParser: true , useUnifiedTopology: true})
+   await mongoose.connect(mongourl)
    console.log('MongoDB Connected')
     } catch (error) {
       console.log(error);
