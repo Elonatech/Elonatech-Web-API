@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const authRoutes = require('./routes/authRoute');
 const blogRoutes = require('./routes/blogRoute');
 const productRoutes = require('./routes/productRoute');
-const { connectDB } = require('./config/database')
+const { connectMongodb } = require('./config/database')
 
 // JSON
 app.use(express.json())
@@ -20,7 +20,7 @@ app.use(cors({ origin:"*", credentials:true }));
 // app.use(morgan());
 
 // DATABASE 
-connectDB();
+connectMongodb();
 
 // ROUTES
 app.get('/' , (req, res) =>{
