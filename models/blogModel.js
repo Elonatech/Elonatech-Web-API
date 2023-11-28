@@ -12,21 +12,22 @@ description:{
     required:true
 },
 
-file:{
-    type:String,
-    required:true
-},
 author:{
     type:String,
     required:true
 },
 
-createAt: {
-    type: Date, 
-    default: Date.now
+category:{
+    type:String,
+    required:true
 },
 
-});
+cloudinary_id:{
+    type:String,
+    required:true
+},
+
+},{timestamps:true});
 
 const Blog = mongoose.model('Blog', blogSchema);
 
