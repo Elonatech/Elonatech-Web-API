@@ -3,27 +3,21 @@ const cloudinary = require('../lib/cloudinary')
 
 // Create Blog
 const createBlog = async (req , res) =>{
+let result;
+if (req.file) {
+  result =  await cloudinary.uploader.upload(req.file.path);
+} else {
+    return res.send('cloudinary path is undefined')
+}
 
-cloudinary.uploader.upload(req.file.path,
-        {
-      
-        },
-        (err, result) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send(err);
-        }
-        Blog.create({
-           title: req.body.title,
-           description: req.body.description,
-           author: req.body.author,
-           category: req.body.category,
-           cloudinary_id: result.secure_url,
-         });
-         return res.status(201).json({ message:"Blog Successfully Created" });
-    }
-    );
-
+Blog.create({
+               title: req.body.title,
+               description: req.body.description,
+               author: req.body.author,
+               category: req.body.category,
+               cloudinary_id: result.secure_url,
+});
+return res.status(201).json({ message:"Blog Successfully Created" });
 }
 
 // Get All Blogs 
