@@ -1,39 +1,37 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-
    name:{
-    type:String,
-    required:true
-   },
+      type:String,
+      required:true
+     },
+  
+     description:{
+      type:String,
+      required:true
+     },
+  
+     price:{
+      type: Number,
+      required:true
+     },
+     category:{
+     type:String,
+     required:true
+     },
+  
+     cloudinary_id:{
+      type:String,
+      required:true
+     },
+  
+     createAt:{
+      type: Date,
+      default: Date.now()
+     }
 
-   description:{
-    type:String,
-    required:true
-   },
+},{timestamps:true});
 
-   price:{
-    type: Number,
-    required:true
-   },
+const Product = mongoose.model('Blog', productSchema);
 
-   file:{
-    type:String,
-    required:true
-   },
-
-   category:{
-    type:String,
-    required:true
-   },
-
-   createAt:{
-    type: Date,
-    default: Date.now()
-   }
-    
-});
-
-const Product = new mongoose.model('Products', productSchema);
-
-module.exports = Product;
+module.exports = Product
