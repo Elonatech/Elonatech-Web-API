@@ -10,14 +10,14 @@ if (req.file) {
     return res.send('cloudinary path is undefined')
 }
 
-Blog.create({
+const newBlog = await Blog.create({
                title: req.body.title,
                description: req.body.description,
                author: req.body.author,
                category: req.body.category,
                cloudinary_id: result.secure_url,
 });
-return res.status(201).json({ message:"Blog Successfully Created" });
+return res.status(201).json({ newBlog });
 }
 
 // Get All Blogs 
