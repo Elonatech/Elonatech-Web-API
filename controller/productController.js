@@ -1,6 +1,5 @@
 const Product = require('../models/productModel');
 const cloudinary = require('../lib/multipleCloudinary');
-const cloudinaryDelete = require('../lib/cloudinary');
 const fs = require('fs');
 
 
@@ -23,14 +22,14 @@ const createProduct =  async (req , res) =>{
                     }
                 }
                 //creating the product
-                const product = await Product.create({
+                const product = await Product({
                     name: name,
                     description: description,
                     price: price,
                     category: category,
                     cloudinary_id: urls
                 })
-
+                product.save();
                 return res.status(201).json({
                     success: true,
                     message: "product created sucessfully",
@@ -65,7 +64,6 @@ const getProductById = async (req , res) =>{
 
 const deleteProduct = async (req , res) =>{
     try {
-         // Find Blog by Id
     const product  = await Product.findById(req.params.id);
     if(!product){
         return res.status(404).send('Id not found')
