@@ -1,24 +1,45 @@
 const Product = require('../models/productModel');
-const cloudinary = require('../lib/cloudinary');
+const cloudinary = require('../lib/multipleCloudinary');
+const cloudinaryDelete = require('../lib/cloudinary');
+const fs = require('fs');
+
 
 
 // Create Product
-const createProduct =  async (req , res) =>{
-    let result;
-    if (req.file) {
-      result =  await cloudinary.uploader.upload(req.file.path);
-    } else {
-        return res.send('cloudinary path is undefined')
-    }
+const createProduct =  async (req , res) =>{ 
+        const { name, description, price , category } = req.body
+
+        const uploader = async (path) => await cloudinary.uploads(path, "Images")
     
-    const newProduct = await Product.create({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            category: req.body.category,
-            cloudinary_id: result.secure_url,
-    });
-    return res.status(201).json({ newProduct });
+        try {
+                const urls = []
+                if (req.files) {
+                    const files = req.files;
+                    for (const file of files) {
+                        const { path } = file;
+                        const newPath = await uploader(path)
+                        urls.push(newPath)
+                        fs.unlinkSync(path)
+                    }
+                }
+                //creating the product
+                const product = await Product.create({
+                    name: name,
+                    description: description,
+                    price: price,
+                    category: category,
+                    cloudinary_id: urls
+                })
+
+                return res.status(201).json({
+                    success: true,
+                    message: "product created sucessfully",
+                    data: product
+                })
+    
+        } catch (error) {
+          console.log(error)
+        }
 }
 
 // Get All Products
@@ -40,15 +61,24 @@ const getProductById = async (req , res) =>{
      return res.status(200).json({ getProductById })
 }
 
+
+
 const deleteProduct = async (req , res) =>{
-    // Find Blog by Id
+    try {
+         // Find Blog by Id
     const product  = await Product.findById(req.params.id);
-    // Delete image from cloudinary
-    await cloudinary.uploader.destroy(product.cloudinary_id);
-   // Delete user from db
-   await product.deleteOne();
-   return res.status(200).json({message: "Blog Successfully Deleted" , product})
+    if(!product){
+        return res.status(404).send('Id not found')
+    }
+     await Product.findByIdAndDelete(product)
+   return res.status(200).json({message: "Blog Successfully Deleted"})  
+    } catch (error) {
+        console.log(error)
+    }
+ 
 }
+
+
 
 
 module.exports = { createProduct, getAllProducts, getProductById, deleteProduct }

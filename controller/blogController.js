@@ -1,5 +1,5 @@
 const Blog = require('../models/blogModel');
-const cloudinary = require('../lib/cloudinary')
+const cloudinary = require('../lib/cloudinary');
 
 // Create Blog
 const createBlog = async (req , res) =>{

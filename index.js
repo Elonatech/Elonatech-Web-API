@@ -14,7 +14,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended:"true"}));
 
 // CORS
-app.use(cors({ origin:'*', credentials:true , methods:['POST', 'GET', 'PUT', 'DELETE']}));
+// app.use(cors({ origin:'*', credentials:true , methods:['POST', 'GET', 'PUT', 'DELETE']}));
+app.use(cors({origin:"*", credentials:"" , methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']}))
 
 //MORGAN
 // app.use(morgan());

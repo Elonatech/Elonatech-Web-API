@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
      },
   
      cloudinary_id:{
-      type:String,
+      type:Array,
       required:true
      },
   
