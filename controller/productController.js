@@ -6,10 +6,9 @@ const fs = require('fs');
 
 // Create Product
 const createProduct =  async (req , res) =>{ 
-        const { name, description, price , category } = req.body
+        const { name, description, price, brand, category,  series, weight, dimension, color, hardware, os, processor, number, memory, ram, drive, display, resolution, graphics, voltage, battery, wireless  } = req.body
 
         const uploader = async (path) => await cloudinary.uploads(path, "Images")
-    
         try {
                 const urls = []
                 if (req.files) {
@@ -22,14 +21,34 @@ const createProduct =  async (req , res) =>{
                     }
                 }
                 //creating the product
-                const product = await Product({
+                const product = await Product.create({
                     name: name,
                     description: description,
                     price: price,
+                    brand:brand,
                     category: category,
+                    computerProperty:{
+                     series: series,
+                     weight: weight,
+                     dimension: dimension,
+                     color: color,
+                     hardware: hardware,
+                     os: os,
+                     processor:processor,
+                     number: number,
+                     memory: memory,
+                     ram: ram,
+                     drive: drive,
+                     display: display,
+                     resolution: resolution,
+                     graphics: graphics,
+                     voltage: voltage,
+                     battery: battery,
+                     wireless: wireless
+                    },
+                
                     cloudinary_id: urls
                 })
-                product.save();
                 return res.status(201).json({
                     success: true,
                     message: "product created sucessfully",

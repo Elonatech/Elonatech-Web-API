@@ -1,11 +1,68 @@
 const mongoose = require('mongoose');
 
+
+const computerPropertySchema = mongoose.Schema({
+   series:{
+      type: String
+   }, 
+   model:{
+      type: String
+   },
+   weight:{
+      type: String
+   },
+   dimension:{
+      type: String
+   },
+   color:{
+      type: String
+   },
+   hardware:{
+      type: String
+   },
+   os:{
+      type: String
+   },
+   processor:{
+      type: String
+   },
+   number:{
+      type: String
+   },
+   memory:{
+      type: String
+   },
+   ram:{
+      type: String
+   },
+   drive:{
+      type: String
+   },
+   display:{
+      type: String
+   },
+   resolution:{
+      type: String
+   },
+   graphics:{
+      type: String
+   },
+   voltage:{
+      type: String
+   },
+   battery:{
+      type: String
+   },
+   wireless:{
+      type: String
+   }, 
+  })
+
 const productSchema = new mongoose.Schema({
-   name:{
+     name:{
       type:String,
       required:true
      },
-  
      description:{
       type:String,
       required:true
@@ -15,12 +72,17 @@ const productSchema = new mongoose.Schema({
       type: String,
       required:true
      },
+     brand:{
+      type: String,
+      required:true
+     },
      category:{
      type:String,
      required:true
      },
-  
-     cloudinary_id:{
+    computerProperty:[computerPropertySchema],
+    
+    cloudinary_id:{
       type:Array,
       required:true
      },
@@ -35,4 +97,7 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product
+
+
+
 
