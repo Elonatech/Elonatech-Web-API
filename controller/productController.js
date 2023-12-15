@@ -2,11 +2,11 @@ const Product = require('../models/productModel');
 const cloudinary = require('../lib/multipleCloudinary');
 const fs = require('fs');
 
-
+// series, model, weight, dimension, item, color, hardware, os, processor, number, memory, ram, drive, display, resolution, graphics, voltage, battery, wireless
 
 // Create Product
 const createProduct =  async (req , res) =>{ 
-        const { name, description, price, brand, category,  series, weight, dimension, color, hardware, os, processor, number, memory, ram, drive, display, resolution, graphics, voltage, battery, wireless  } = req.body
+        const { name, description, price, brand, category } = req.body
 
         const uploader = async (path) => await cloudinary.uploads(path, "Images")
         try {
@@ -20,6 +20,7 @@ const createProduct =  async (req , res) =>{
                         fs.unlinkSync(path)
                     }
                 }
+                
                 //creating the product
                 const product = await Product.create({
                     name: name,
@@ -27,25 +28,27 @@ const createProduct =  async (req , res) =>{
                     price: price,
                     brand:brand,
                     category: category,
-                    computerProperty:{
-                     series: series,
-                     weight: weight,
-                     dimension: dimension,
-                     color: color,
-                     hardware: hardware,
-                     os: os,
-                     processor:processor,
-                     number: number,
-                     memory: memory,
-                     ram: ram,
-                     drive: drive,
-                     display: display,
-                     resolution: resolution,
-                     graphics: graphics,
-                     voltage: voltage,
-                     battery: battery,
-                     wireless: wireless
-                    },
+                    // computerProperty:{
+                    //  series: series,
+                    //  model: model,
+                    //  weight: weight,
+                    //  dimension: dimension,
+                    //  item: item,
+                    //  color: color,
+                    //  hardware: hardware,
+                    //  os: os,
+                    //  processor:processor,
+                    //  number: number,
+                    //  memory: memory,
+                    //  ram: ram,
+                    //  drive: drive,
+                    //  display: display,
+                    //  resolution: resolution,
+                    //  graphics: graphics,
+                    //  voltage: voltage,
+                    //  battery: battery,
+                    //  wireless: wireless
+                    // },
                 
                     cloudinary_id: urls
                 })
