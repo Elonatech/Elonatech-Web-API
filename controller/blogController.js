@@ -3,6 +3,7 @@ const cloudinary = require('../lib/cloudinary');
 
 // Create Blog
 const createBlog = async (req , res) =>{
+const { title, description, author , category } = req.body; 
 let result;
 if (req.file) {
   result =  await cloudinary.uploader.upload(req.file.path);
@@ -10,13 +11,7 @@ if (req.file) {
     return res.send('cloudinary path is undefined')
 }
 
-const newBlog = await Blog.create({
-               title: req.body.title,
-               description: req.body.description,
-               author: req.body.author,
-               category: req.body.category,
-               cloudinary_id: result.secure_url,
-});
+const newBlog = await Blog.create({ title, description, author, category, cloudinary_id: result.secure_url });
 return res.status(201).json({ newBlog });
 }
 

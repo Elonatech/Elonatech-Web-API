@@ -1,67 +1,98 @@
 const Product = require('../models/productModel');
-const cloudinary = require('../lib/multipleCloudinary');
-const fs = require('fs');
+const cloudinary = require('../lib/cloudinary')
 
-// series, model, weight, dimension, item, color, hardware, os, processor, number, memory, ram, drive, display, resolution, graphics, voltage, battery, wireless
 
-// Create Product
-const createProduct =  async (req , res) =>{ 
-        const { name, description, price, brand, category } = req.body
+const createProduct = async (req, res, next)=>{
+    try {
+        const {    
+             name,
+             description,
+             price,
+             brand,
+             category,
+             series,
+             model,
+             weight,
+             dimension,
+             item,
+             color,
+             hardware,
+             os,
+             processor,
+             number,
+             memory,
+             ram,
+             drive,
+             display,
+             resolution,
+             graphics,
+             voltage,
+             battery,
+             wireless
+            
+            } = req.body
+        let images = [...req.body.images];
+        let imagesBuffer = [];
 
-        const uploader = async (path) => await cloudinary.uploads(path, "Images")
-        try {
-                const urls = []
-                if (req.files) {
-                    const files = req.files;
-                    for (const file of files) {
-                        const { path } = file;
-                        const newPath = await uploader(path)
-                        urls.push(newPath)
-                        fs.unlinkSync(path)
-                    }
-                }
-                
-                //creating the product
-                const product = await Product.create({
-                    name: name,
-                    description: description,
-                    price: price,
-                    brand:brand,
-                    category: category,
-                    // computerProperty:{
-                    //  series: series,
-                    //  model: model,
-                    //  weight: weight,
-                    //  dimension: dimension,
-                    //  item: item,
-                    //  color: color,
-                    //  hardware: hardware,
-                    //  os: os,
-                    //  processor:processor,
-                    //  number: number,
-                    //  memory: memory,
-                    //  ram: ram,
-                    //  drive: drive,
-                    //  display: display,
-                    //  resolution: resolution,
-                    //  graphics: graphics,
-                    //  voltage: voltage,
-                    //  battery: battery,
-                    //  wireless: wireless
-                    // },
-                
-                    cloudinary_id: urls
-                })
-                return res.status(201).json({
-                    success: true,
-                    message: "product created sucessfully",
-                    data: product
-                })
-    
-        } catch (error) {
-          console.log(error)
+        for (let i =0; i < images.length;  i++){
+              const result = await cloudinary.uploader.upload(images[i], {
+              folder: "products",
+              width: '',
+              crop: "scale"
+        });
+
+          imagesBuffer.push({
+            public_id: result.public_id,
+            url: result.secure_url
+          })
+
         }
+       
+        const data = {
+            name,
+            description,
+            price,
+            brand,
+            category,
+            computerProperty:{
+            series,
+            model,
+            weight,
+            dimension, 
+            item,
+            color,
+            hardware,
+            os,
+            processor,
+            number,
+            memory,
+            ram,
+            drive,
+            display,
+            resolution,
+            graphics,
+            voltage,
+            battery,
+            wireless,
+            },
+            images:imagesBuffer
+    
+        }
+        const product = await Product.create(data)
+         
+        res.status(201).json({
+            success: true,
+            product
+        })
+        
+    } catch (error) {
+        console.log(error);
+        next(error);
+        
+    }
+   
 }
+
 
 // Get All Products
 const  getAllProducts = async (req , res) =>{
@@ -101,4 +132,4 @@ const deleteProduct = async (req , res) =>{
 
 
 
-module.exports = { createProduct, getAllProducts, getProductById, deleteProduct }
+module.exports = { createProduct, getAllProducts, getProductById, deleteProduct,  }

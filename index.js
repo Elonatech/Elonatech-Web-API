@@ -7,14 +7,14 @@ const morgan = require('morgan');
 const adminRoutes = require('./routes/adminRoute');
 const blogRoutes = require('./routes/blogRoute');
 const productRoutes = require('./routes/productRoute');
-const { connectMongodb } = require('./config/database')
+const { connectMongodb } = require('./config/database');
+
 
 // JSON
-app.use(express.json())
+app.use(express.json({limit: '100mb'}))
 app.use(express.urlencoded({extended:"true"}));
 
 // CORS
-// app.use(cors({ origin:'*', credentials:true , methods:['POST', 'GET', 'PUT', 'DELETE']}));
 app.use(cors({origin:"*", credentials:"" , methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']}))
 
 //MORGAN
