@@ -35,12 +35,7 @@ const createProduct = async (req, res, next)=>{
         let imagesBuffer = [];
 
         for (let i =0; i < images.length;  i++){
-              const result = await cloudinary.uploader.upload(images[i], {
-              folder: "products",
-              width: '',
-              crop: "scale"
-        });
-
+              const result = await cloudinary.uploader.upload(images[i], { folder: "products"});
           imagesBuffer.push({
             public_id: result.public_id,
             url: result.secure_url

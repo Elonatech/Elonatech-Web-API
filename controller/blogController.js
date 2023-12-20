@@ -6,7 +6,7 @@ const createBlog = async (req , res) =>{
 const { title, description, author , category } = req.body; 
 let result;
 if (req.file) {
-  result =  await cloudinary.uploader.upload(req.file.path);
+  result =  await cloudinary.uploader.upload(req.file.path, {folder: "blog", gravity: "auto", height: 1500, width: 749, crop: "fill"});
 } else {
     return res.send('cloudinary path is undefined')
 }

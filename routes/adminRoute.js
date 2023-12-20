@@ -5,7 +5,9 @@ const AdminController = require('../controller/AdminController')
 
 router.post('/register',   AdminController.adminRegister )
 router.post('/login',  AdminController.adminLogin)
-
+router.get('/p', (req, res)=>{
+    res.status(200).send('jdhfhfhf')
+})
 
 
 module.exports = router;
