@@ -32,15 +32,22 @@ const createProduct = async (req, res, next)=>{
             
             } = req.body
         let images = [...req.body.images];
+        if(images.length === 0){
+           return res.status(400).send('Added Product Images')
+        }
         let imagesBuffer = [];
 
-        for (let i =0; i < images.length;  i++){
+        for (let i = 0; i < images.length;  i++){
               const result = await cloudinary.uploader.upload(images[i], { folder: "products"});
           imagesBuffer.push({
             public_id: result.public_id,
             url: result.secure_url
           })
 
+        }
+
+        if(!name || !brand || !price || !category){
+         return res.status(400).send('Please fill  Name, Brand, Price and Category fields')
         }
        
         const data = {

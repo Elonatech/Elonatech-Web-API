@@ -5,14 +5,16 @@ const cloudinary = require('../lib/cloudinary');
 const createBlog = async (req , res) =>{
 const { title, description, author , category } = req.body; 
 let result;
-if (req.file) {
-  result =  await cloudinary.uploader.upload(req.file.path, {folder: "blog", gravity: "auto", height: 1500, width: 749, crop: "fill"});
+if (!req.file) {
+  return res.status(400).send('Image Path is Undefined')
 } else {
-    return res.send('cloudinary path is undefined')
+  result =  await cloudinary.uploader.upload(req.file.path, {folder: "blog", gravity: "auto", height: 1500, width: 749, crop: "fill"});
 }
 
 const newBlog = await Blog.create({ title, description, author, category, cloudinary_id: result.secure_url });
-return res.status(201).json({ newBlog });
+return res.status(201).send('blog  posted successfully')
+
+// .json({ newBlog });
 }
 
 // Get All Blogs 

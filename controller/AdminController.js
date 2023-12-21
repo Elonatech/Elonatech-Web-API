@@ -51,7 +51,7 @@ const adminLogin = async (req, res) => {
   
   const payload = { id: Admin._id };
   // Admin jwt
-const token = jwt.sign(payload, token_key   , { expiresIn: "1h" });
+const token = jwt.sign(payload, token_key   , { expiresIn: "3600" });
   return res.status(200).json({ message: "Login Successful", email: admin.email, access: token });
 };
 
