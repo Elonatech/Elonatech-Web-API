@@ -34,7 +34,7 @@ const adminRegister = async (req , res) =>{
 const adminLogin = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).send("Fill complete fields");
+    return res.status(400).send("Fill All Required Fields");
   }
 
   // check if Admin exist
